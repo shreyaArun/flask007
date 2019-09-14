@@ -18,7 +18,7 @@ class Order(db.Model):
 	TotalPrice = db.Column(db.Integer, nullable=True)
 
 	def __repr__(self):
-		return f"Order('{self.dt}','{self.i1}','{self.i2}','{self.i3}','{self.i4}','{self.i5}','{self.TotalPrice}')"
+		return "Order('{}','{}','{}','{}','{}','{}','{}')".format(self.dt,self.i1,self.i2,self.i3,self.i4,self.i5,self.TotalPrice)
 
 @app.route('/ordered', methods=['POST','GET'])
 def ordered():
@@ -33,20 +33,6 @@ def ordered():
 		print(" ",i1," ",i2," ",i3," ",i4," ",i5)
 		TP = int(i1) * 1000 + int(i2) * 800 + int(i3) * 1200 + int(i4) * 10000 + int(i5) * 5000
 		data = Order(i1 = int(i1), i2 = int(i2), i3 = int(i3), i4 = int(i4), i5 = int(i5), TotalPrice = TP)
-		'''
-		data = [ 
-			{
-				'id' : 123,
-				'i1' : i1,
-				'i2' : i2,
-				'i3' : i3,
-				'i4' : i4,
-				'i5' : i5,
-				'TotalPrice' : TP,
-				'dt' : datetime.utcnow()
-			}
-		]
-		'''
 		try:
 			db.session.add(data)
 			db.session.commit()
@@ -61,32 +47,6 @@ def result():
 	print("Result")
 	# ADD DATABASE READER
 	data = Order.query.order_by(Order.id).all()
-	'''
-	x = datetime.utcnow
-	print(x)
-	data = [
-		{
-			'id' : 145,
-			'dt' : datetime.utcnow(),
-			'i1' : 1,
-			'i2' : 2,
-			'i3' : 0,
-			'i4' : 0,
-			'i5' : 0,
-			'TotalPrice' : 1234
-		},
-		{
-			'id' : 459,
-			'dt' : datetime.utcnow(),
-			'i1' : 1,
-			'i2' : 2,
-			'i3' : 0,
-			'i4' : 0,
-			'i5' : 0,
-			'TotalPrice' : 1234
-		}
-	]
-	'''
 	return render_template('result.html', data=data)
 
 @app.route('/add')
@@ -112,45 +72,3 @@ def index():
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=80, debug = True)
-
-'''
-@app.route('/data', methods=['GET', 'POST'])
-def upload_file():
-	tools.empty_folder('uploads')
-	if request.method == 'POST':
-		# check if the post request has the file part
-		if 'file' not in request.files:
-			flash('No file part')
-			return redirect(request.url)
-		file = request.files['file']
-		# if user does not select file, browser also
-		# submit a empty part without filename
-		if file.filename == '':
-			flash('No selected file')
-			return 'NO FILE SELECTED'
-		if file:
-			filename = secure_filename(file.filename)
-			file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-			return start_encryption()
-		return 'Invalid File Format !'
-	
-@app.route('/download_data', methods=['GET', 'POST'])
-def upload_key():
-	tools.empty_folder('key')
-	if request.method == 'POST':
-		# check if the post request has the file part
-		if 'file' not in request.files:
-			flash('No file part')
-			return redirect(request.url)
-		file = request.files['file']
-		# if user does not select file, browser also
-		# submit a empty part without filename
-		if file.filename == '':
-			flash('No selected file')
-			return 'NO FILE SELECTED'
-		if file and allowed_file(file.filename):
-			filename = secure_filename(file.filename)
-			file.save(os.path.join(app.config['UPLOAD_KEY'], file.filename))
-			return start_decryption()
-		return 'Invalid File Format !'
-'''
