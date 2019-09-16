@@ -4,7 +4,11 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:admin123@database.cygtiwji8ayl.ap-south-1.rds.amazonaws.com:3306/site.db'
+try:
+	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+except:
+	print("Error to connect")
 db = SQLAlchemy(app)
 
 class Order(db.Model):
@@ -71,4 +75,4 @@ def index():
 	return render_template('index.html',error=0)
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=80, debug = True)
+	app.run(host='127.0.0.1', port=5550, debug = True)
