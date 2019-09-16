@@ -5,10 +5,13 @@ from datetime import datetime
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:admin123@database.cygtiwji8ayl.ap-south-1.rds.amazonaws.com:3306/site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin_db1:admin_db1@db1.c3dqa5cxwo4k.ap-south-1.rds.amazonaws.com:5432/admin_db1'
+'''
 try:
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 except:
 	print("Error to connect")
+'''
 db = SQLAlchemy(app)
 
 class Order(db.Model):
